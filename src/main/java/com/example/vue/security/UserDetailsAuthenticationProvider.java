@@ -1,6 +1,6 @@
 package com.example.vue.security;
 
-import com.example.vue.service.UserDetailsServiceImpl;
+import com.example.vue.domain.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;

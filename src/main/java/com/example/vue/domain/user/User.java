@@ -1,4 +1,4 @@
-package com.example.vue.domain;
+package com.example.vue.domain.user;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

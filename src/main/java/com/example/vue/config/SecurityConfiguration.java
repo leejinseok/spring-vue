@@ -1,7 +1,7 @@
 package com.example.vue.config;
 
 import com.example.vue.security.UserDetailsAuthenticationProvider;
-import com.example.vue.service.UserDetailsServiceImpl;
+import com.example.vue.domain.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
