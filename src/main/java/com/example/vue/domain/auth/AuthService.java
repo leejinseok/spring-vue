@@ -5,9 +5,9 @@ import com.example.vue.domain.user.UserRepository;
 import com.example.vue.domain.user.UserResponseDto;
 import com.example.vue.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import sun.jvm.hotspot.asm.Register;
 
 import java.util.List;
 
@@ -40,6 +40,12 @@ public class AuthService {
 
     public UserResponseDto register(RegisterRequestDto registerRequestDto) {
         registerRequestDto.setPassword(bCryptPasswordEncoder.encode(registerRequestDto.getPassword()));
+
+        String email = registerRequestDto.getEmail();
+        if (userRepository.findByEmail(email).size() > 0) {
+            throw new AuthException.AlreadyExist(email);
+        }
+
         User user = userRepository.save(new User(registerRequestDto));
         return new UserResponseDto(user);
     }

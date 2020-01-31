@@ -18,4 +18,11 @@ public class AuthException {
             super("패스워드가 일치하지 않습니다.");
         }
     }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public static class AlreadyExist extends RuntimeException {
+        public AlreadyExist(String email) {
+            super("이미 존재하는 사용자입니다. [email=" + email + "]");
+        }
+    }
 }
