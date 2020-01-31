@@ -1,4 +1,4 @@
-package com.example.vue.security;
+package com.example.vue.config.security;
 
 import com.example.vue.domain.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;

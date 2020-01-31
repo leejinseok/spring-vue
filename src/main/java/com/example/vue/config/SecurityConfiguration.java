@@ -1,6 +1,6 @@
 package com.example.vue.config;
 
-import com.example.vue.security.UserDetailsAuthenticationProvider;
+import com.example.vue.config.security.UserDetailsAuthenticationProvider;
 import com.example.vue.domain.user.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,6 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.cors().disable()
+            .csrf().disable()
             .authorizeRequests()
             .antMatchers("/auth/login").permitAll()
             .antMatchers("/auth/register").permitAll()
