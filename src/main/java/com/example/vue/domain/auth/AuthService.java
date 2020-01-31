@@ -5,7 +5,6 @@ import com.example.vue.domain.user.UserRepository;
 import com.example.vue.domain.user.UserResponseDto;
 import com.example.vue.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

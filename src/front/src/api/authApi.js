@@ -12,6 +12,20 @@ function login(data) {
   });
 }
 
+
+function register(data) {
+  const { email, name, password } = data;
+  return axios({
+    method: 'post',
+    url: '/api/auth/register',
+    data: {
+      email,
+      name,
+      password
+    }
+  });
+}
+
 function currentUser(token) {
   return axios({
     method: 'get',
@@ -21,16 +35,6 @@ function currentUser(token) {
     }
   });
 }
-
-function register(data) {
-  const { email, name, password } = data;
-  return axios({
-    method: 'post',
-    url: '/api/auth/register',
-    data
-  });
-}
-
 
 export default {
   login,
