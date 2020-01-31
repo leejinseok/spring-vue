@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
+    private final UserService userService;
+
     @GetMapping
-    public void getAuthenticationUser(@AuthenticationPrincipal User user) {
+    public UserResponseDto getAuthenticationUser(@AuthenticationPrincipal User user) {
+        return new UserResponseDto(userService.findById(user.getId()));
     }
 }

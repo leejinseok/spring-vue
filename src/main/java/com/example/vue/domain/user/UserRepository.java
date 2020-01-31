@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -19,6 +20,10 @@ public class UserRepository {
 
     public List<User> findByEmail(String email) {
         return em.createNamedQuery("findByEmail", User.class).setParameter("email", email).getResultList();
+    }
+
+    public Optional<User> findById(Long id) {
+        return Optional.ofNullable(em.find(User.class, id));
     }
 
 }
