@@ -12,7 +12,6 @@ function login(data) {
   });
 }
 
-
 function register(data) {
   const { email, name, password } = data;
   return axios({
@@ -26,7 +25,7 @@ function register(data) {
   });
 }
 
-function currentUser(token) {
+function session(token) {
   return axios({
     method: 'get',
     url: '/api/users',
@@ -38,6 +37,6 @@ function currentUser(token) {
 
 export default {
   login,
-  currentUser,
+  session,
   register
 }
