@@ -17,8 +17,7 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     public LoginResponseDto login(@RequestBody @Valid LoginRequestDto loginRequestDto) {
-        authService.login(loginRequestDto);
-        return null;
+        return authService.login(loginRequestDto);
     }
 
     @PostMapping(value = "/register")
