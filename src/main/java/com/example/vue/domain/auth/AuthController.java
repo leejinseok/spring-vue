@@ -1,8 +1,11 @@
 package com.example.vue.domain.auth;
 
+import com.example.vue.domain.user.UserResponseDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
@@ -19,7 +22,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/register")
-    public void register() {
-
+    public UserResponseDto register(@RequestBody @Valid RegisterRequestDto registerRequestDto) {
+        return authService.register(registerRequestDto);
     }
 }

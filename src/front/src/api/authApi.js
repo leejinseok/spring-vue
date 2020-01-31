@@ -22,8 +22,18 @@ function currentUser(token) {
   });
 }
 
+function register(data) {
+  const { email, name, password } = data;
+  return axios({
+    method: 'post',
+    url: '/api/auth/register',
+    data
+  });
+}
+
 
 export default {
   login,
-  currentUser
+  currentUser,
+  register
 }

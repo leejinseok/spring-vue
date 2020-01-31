@@ -1,5 +1,6 @@
 package com.example.vue.domain.user;
 
+import com.example.vue.domain.auth.RegisterRequestDto;
 import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +45,12 @@ public class User  {
         this.id = Long.valueOf(claims.get("userId").toString());
         this.name = claims.get("name").toString();
         this.role = claims.get("role").toString();
+    }
+
+    public User(RegisterRequestDto registerRequestDto) {
+        this.password = registerRequestDto.getPassword();
+        this.email = registerRequestDto.getEmail();
+        this.name = registerRequestDto.getName();
     }
 
 }

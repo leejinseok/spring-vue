@@ -13,7 +13,6 @@
 </template>
 
 <script>
-    import axios from "axios";
     import authApi from "../../api/authApi";
 
   export default {
