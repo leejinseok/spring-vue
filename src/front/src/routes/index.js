@@ -1,11 +1,10 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import VueRouter from "vue-router";
 
-import Home from "../pages/Welcome";
+import Welcome from "../pages/Welcome";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Articles from "../pages/articles";
-
 
 Vue.use(VueRouter);
 
@@ -14,7 +13,7 @@ export const router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: Home
+      component: Welcome
     },
     {
       path: '/auth/login',

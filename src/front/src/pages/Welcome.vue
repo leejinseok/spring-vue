@@ -8,9 +8,9 @@
 </template>
 
 <script>
-  export default {
-    name: "Welcome"
-  }
+    export default {
+        name: "Welcome"
+    }
 </script>
 
 <style scoped>

@@ -18,9 +18,8 @@
         },
         async beforeCreate() {
           try {
-            const result = await articleApi.getArticles();
-            const { articles } = result.data;
-            this.articles = articles;
+            const result = await articleApi.getArticles.bind(this)({});
+            this.articles = result.data;
           } catch (err) {
             alert('문제가 발생하였습니다.');
             console.log(err.response);
