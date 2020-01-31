@@ -1,5 +1,6 @@
 package com.example.vue.config.security;
 
+import com.example.vue.domain.user.User;
 import com.example.vue.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -54,8 +55,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
         String role = (String) claims.get("role");
         roles.add(new SimpleGrantedAuthority("ROLE_" + role));
 
-        return new UsernamePasswordAuthenticationToken(claims, null, roles);
-
+//        return new UsernamePasswordAuthenticationToken(claims, null, roles);
+        return new UsernamePasswordAuthenticationToken(new User(claims), null, roles);
     }
 
 }
