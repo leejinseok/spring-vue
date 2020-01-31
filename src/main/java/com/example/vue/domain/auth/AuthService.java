@@ -32,7 +32,7 @@ public class AuthService {
             throw new AuthException.PasswordNotMatched();
         }
 
-        String token = jwtUtil.createToken(user.getId(), user.getName(), "ROLE_USER");
+        String token = jwtUtil.createToken(user.getId(), user.getName(), "USER");
         return new LoginResponseDto(token);
     }
 }
