@@ -32,6 +32,7 @@
                     const result = await authApi.login({email, password});
                     const { token } = result.data;
                     this.$cookie.set('accessToken', token, 1000);
+                    await this.$router.push('/articles');
                 } catch (err) {
                     console.log(err);
                 }

@@ -1,5 +1,6 @@
 package com.example.vue.domain.auth;
 
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -23,6 +24,13 @@ public class AuthException {
     public static class AlreadyExist extends RuntimeException {
         public AlreadyExist(String email) {
             super("이미 존재하는 사용자입니다. [email=" + email + "]");
+        }
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public static class MalformedJwt extends JwtException {
+        public MalformedJwt(String token) {
+            super("올바르지 않은 토큰 입니다. [token=" + token + "]");
         }
     }
 }

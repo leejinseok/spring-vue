@@ -14,6 +14,11 @@ public class ArticleRepository {
 
     private final EntityManager em;
 
+    public Article save(Article article) {
+        em.persist(article);
+        return article;
+    }
+
     public List<Article> findAll(Pageable pageable) {
         int page = pageable.getPageNumber();
         int size = pageable.getPageSize();

@@ -1,6 +1,7 @@
 package com.example.vue.domain.article;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NamedQuery(name = "findAll", query = "select a from Article a order by a.createdAt desc")
+@NoArgsConstructor
 public class Article {
 
     @Id @GeneratedValue
@@ -27,4 +29,18 @@ public class Article {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
+    public Article(ArticleRequestDto articleRequestDto) {
+        this.title = articleRequestDto.getTitle();
+        this.content = articleRequestDto.getContent();
+    }
+
+    @PrePersist
+    private void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

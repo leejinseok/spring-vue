@@ -1,8 +1,10 @@
 package com.example.vue.config.security;
 
+import com.example.vue.domain.auth.AuthException;
 import com.example.vue.domain.user.User;
 import com.example.vue.util.JwtUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         Authentication authentication = getAuthentication(request);
 
         if (authentication != null) {
@@ -49,13 +52,18 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
             return null;
         }
 
-        Claims claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
+        Claims claims;
+
+        try {
+            claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
+        } catch (JwtException e) {
+            throw new AuthException.MalformedJwt(token);
+        }
 
         Set<GrantedAuthority> roles = new HashSet<>();
         String role = (String) claims.get("role");
         roles.add(new SimpleGrantedAuthority("ROLE_" + role));
 
-//        return new UsernamePasswordAuthenticationToken(claims, null, roles);
         return new UsernamePasswordAuthenticationToken(new User(claims), null, roles);
     }
 
