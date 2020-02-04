@@ -34,15 +34,23 @@
         const result = await articleApi.getArticle.bind(this)(articleId);
         this.article = result.data;
         this.init = true;
+
       } catch (e) {
         console.log(e);
       }
     },
     methods: {
-      remove() {
+      async remove() {
         const articleId = this.$route.params.id;
         if(!confirm('정말 삭제하시겠습니까?')) return;
 
+        try {
+          await articleApi.removeArticle.bind(this)(articleId);
+          await this.$router.push('/articles');
+        } catch (e) {
+          alert('문제가 발생하였습니다.');
+          console.log(e);
+        }
 
       }
     }

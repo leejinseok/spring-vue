@@ -12,4 +12,5 @@ public class ArticleRequestDto {
 
     @NotNull
     private String content;
+
 }

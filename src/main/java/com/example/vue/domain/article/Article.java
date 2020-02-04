@@ -33,9 +33,10 @@ public class Article {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Article(ArticleRequestDto articleRequestDto) {
+    public Article(ArticleRequestDto articleRequestDto, User user) {
         this.title = articleRequestDto.getTitle();
         this.content = articleRequestDto.getContent();
+        this.user = user;
     }
 
     @PrePersist

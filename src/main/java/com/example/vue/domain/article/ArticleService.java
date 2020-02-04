@@ -15,7 +15,9 @@ public class ArticleService {
     private final ArticleRepository articleRepository;
 
     public ArticleResponseDto save(ArticleRequestDto articleRequestDto, User user) {
-        Article article = articleRepository.save(new Article(articleRequestDto));
+
+        Article article = articleRepository.save(new Article(articleRequestDto, user));
+
         return new ArticleResponseDto(article, user);
     }
 

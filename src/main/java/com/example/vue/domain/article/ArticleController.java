@@ -38,7 +38,9 @@ public class ArticleController {
         return articleService.save(articleRequestDto, user);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping(value = "/{articleId}")
+    @Transactional
     public void deleteArticle(@PathVariable Long articleId, @AuthenticationPrincipal User user) {
         articleService.delete(articleId, user);
     }

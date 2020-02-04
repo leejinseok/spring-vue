@@ -54,5 +54,6 @@ function removeArticle(id) {
 export default {
   getArticles,
   getArticle,
-  postArticle
+  postArticle,
+  removeArticle
 }

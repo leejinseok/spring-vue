@@ -1,6 +1,7 @@
 package com.example.vue.domain.article;
 
 import com.example.vue.domain.user.User;
+import com.example.vue.domain.user.UserResponseDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -12,6 +13,7 @@ public class ArticleResponseDto {
     private Long id;
     private String title;
     private String content;
+    private UserResponseDto user;
 
     @JsonProperty("isOwn")
     private boolean isOwn;
@@ -25,5 +27,6 @@ public class ArticleResponseDto {
         this.createdAt = article.getCreatedAt();
         this.updatedAt = article.getUpdatedAt();
         this.isOwn = article.compareUser(user);
+        this.user = new UserResponseDto(user);
     }
 }
