@@ -6,9 +6,11 @@
         <div>
             content: <p>{{ article.content }}</p>
         </div>
-        <div>
-            createdAt: {{ article.createdAt }}
+
+        <div v-if="init">
+            createdAt: <span>{{ article.createdAt }}</span>
         </div>
+
     </div>
 </template>
 
@@ -19,13 +21,8 @@
     name: "Detail",
     data() {
       return {
-        article: {
-          title: '',
-          content: '',
-          createdAt: '',
-          isOwn: null
-        },
-        pending: true
+        article: {},
+        init: false
       }
     },
     async beforeCreate() {
@@ -33,7 +30,7 @@
         const articleId = this.$route.params.id;
         const result = await articleApi.getArticle.bind(this)(articleId);
         this.article = result.data;
-        this.pending = false;
+        this.init = true;
       } catch (e) {
         console.log(e);
       }

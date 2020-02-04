@@ -4,6 +4,8 @@
             <router-link :to="{name: 'DetailArticle', params: {id: article.id}}"><span>{{ article.title }}</span></router-link>
         </article>
 
+        <br>
+
         <div>
             <router-link to="/articles/write">글쓰기</router-link>
         </div>
