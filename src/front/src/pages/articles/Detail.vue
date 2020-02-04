@@ -1,12 +1,14 @@
 <template>
     <div>
         <div>
-            title : <span v-if="!pending">{{ article.title }}</span>
+            title : <span>{{ article.title }}</span>
         </div>
         <div>
-            content: <p v-if="!pending">{{ article.content }}</p>
+            content: <p>{{ article.content }}</p>
         </div>
-
+        <div>
+            createdAt: {{ article.createdAt }}
+        </div>
     </div>
 </template>
 
@@ -17,13 +19,19 @@
     name: "Detail",
     data() {
       return {
-        article: null,
+        article: {
+          title: '',
+          content: '',
+          createdAt: '',
+          isOwn: null
+        },
         pending: true
       }
     },
     async beforeCreate() {
       try {
-        const result = await articleApi.getArticle.bind(this)(this.$route.params.id);
+        const articleId = this.$route.params.id;
+        const result = await articleApi.getArticle.bind(this)(articleId);
         this.article = result.data;
         this.pending = false;
       } catch (e) {
