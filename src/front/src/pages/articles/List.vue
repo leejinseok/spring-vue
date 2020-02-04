@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-if="!pending">
         <article v-for="article in articles" v-bind:key="article.id">
             <span>{{ article.title }}</span>
             <span>{{ article }}</span>
@@ -13,27 +13,29 @@
 
 <script>
     import articleApi from "../../api/articleApi";
-    import authApi from "../../api/authApi";
+    import authentication from "../../middlewares/authentication";
 
     export default {
         name: "List",
         data() {
           return {
             articles: [],
-            pending: false
+            pending: true
           }
         },
         async beforeCreate() {
           try {
-            await authApi.session(this.$cookie.get('accessToken'));
+            await authentication.bind(this)();
           } catch (e) {
-            alert('토큰이 존재하지 않거나 올바르지 않은 토큰입니다.');
-            await this.$router.push('/');
+            alert('토큰이 존재하지 않거나 유효하지 않은 토큰입니다.');
+            await this.$router.replace('/');
+            return;
           }
 
           try {
             const result = await articleApi.getArticles.bind(this)({});
             this.articles = result.data;
+            this.pending = false;
           } catch (err) {
             alert('문제가 발생하였습니다.');
             console.log(err.response);
