@@ -47,4 +47,12 @@ public class Article {
     private void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+
+    public boolean compareUser(User user) {
+        return compareUser(user.getId());
+    }
+
+    public boolean compareUser(Long id) {
+        return this.user.getId().equals(id);
+    }
 }

@@ -14,22 +14,24 @@ public class ArticleService {
 
     private final ArticleRepository articleRepository;
 
-    public ArticleResponseDto save(ArticleRequestDto articleRequestDto) {
+    public ArticleResponseDto save(ArticleRequestDto articleRequestDto, User user) {
         Article article = articleRepository.save(new Article(articleRequestDto));
-        return new ArticleResponseDto(article);
+        return new ArticleResponseDto(article, user);
     }
 
-    public List<ArticleResponseDto> findAll(Pageable pageable) {
+    public List<ArticleResponseDto> findAll(Pageable pageable, User user) {
         return articleRepository.findAll(pageable)
             .stream()
-            .map(ArticleResponseDto::new)
+            .map(article -> new ArticleResponseDto(article, user))
             .collect(Collectors.toList());
     }
 
     public ArticleResponseDto findById(Long id, User user) {
         Article article = articleRepository.findById(id).orElseThrow(ArticleException.passNoExistException(id));
-        ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
-        articleResponseDto.setOwn(article.getUser().getId().equals(user.getId()));
-        return articleResponseDto;
+        return new ArticleResponseDto(article, user);
+    }
+
+    public void delete(Long id, User user) {
+        articleRepository.deleteById(id, user);
     }
 }

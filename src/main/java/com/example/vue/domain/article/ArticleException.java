@@ -17,4 +17,11 @@ public class ArticleException {
     public static Supplier<NoExist> passNoExistException(Long id) {
         return () -> new NoExist(id);
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public static class AccessNotOwned extends RuntimeException {
+        public AccessNotOwned(Long id) {
+            super("사용자에게 권한이 없습니다.");
+        }
+    }
 }

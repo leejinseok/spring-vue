@@ -40,6 +40,17 @@ function postArticle({title = '', content = ''}) {
   });
 }
 
+function removeArticle(id) {
+
+  return axios({
+    url: '/api/articles/' + id,
+    headers: {
+      'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+    },
+    method: 'delete'
+  });
+}
+
 export default {
   getArticles,
   getArticle,

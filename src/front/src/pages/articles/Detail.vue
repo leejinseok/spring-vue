@@ -11,6 +11,9 @@
             createdAt: <span>{{ article.createdAt }}</span>
         </div>
 
+        <div v-if="article.isOwn">
+            <button type="button" @click="remove">삭제</button>
+        </div>
     </div>
 </template>
 
@@ -33,6 +36,14 @@
         this.init = true;
       } catch (e) {
         console.log(e);
+      }
+    },
+    methods: {
+      remove() {
+        const articleId = this.$route.params.id;
+        if(!confirm('정말 삭제하시겠습니까?')) return;
+
+
       }
     }
   }
