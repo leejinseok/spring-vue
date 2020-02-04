@@ -1,6 +1,6 @@
 <template>
     <div>
-        <form @submit="submit">
+        <form @submit="isEdit ? update($event) : create($event)">
             <div class="row">
                 <label for="title">Title</label>
                 <input type="text" id="title" v-model="title">
@@ -25,19 +25,35 @@
     data() {
       return {
         title: '',
-        content: ''
+        content: '',
+        isEdit: false
       }
     },
     async beforeCreate() {
       try {
         authentication.bind(this)();
-      } catch (e) {
+      } catch (err) {
         alert('토큰이 존재하지 않거나 유효하지 않은 토큰입니다.');
         await this.$router.replace('/');
+        return;
+      }
+
+      const id = this.$route.query.id;
+
+      if (id) {
+        try {
+          const result = await articleApi.getArticle.bind(this)(id);
+          const {title, content} = result.data;
+          this.title = title;
+          this.content = content;
+          this.isEdit = true;
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
     methods: {
-        submit: async function(evt) {
+        create: async function(evt) {
           evt.preventDefault();
 
           const {title, content} = this;
@@ -55,6 +71,25 @@
             console.log(err);
           }
 
+        },
+        async update(evt) {
+          evt.preventDefault();
+
+          const id = this.$route.query.id;
+
+          const {title, content} = this;
+          const data = {
+            title,
+            content
+          };
+
+          try {
+            await articleApi.updateArticle.bind(this)(id, data);
+            await this.$router.push('/articles');
+          } catch (err) {
+            alert('문제가 발생하였습니다.');
+            console.log(err);
+          }
         }
     }
   }

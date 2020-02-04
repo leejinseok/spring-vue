@@ -39,6 +39,13 @@ public class Article {
         this.user = user;
     }
 
+    public Article(Long id, ArticleRequestDto articleRequestDto, User user) {
+        this.id = id;
+        this.title = articleRequestDto.getTitle();
+        this.content = articleRequestDto.getContent();
+        this.user = user;
+    }
+
     @PrePersist
     private void prePersist() {
         this.createdAt = LocalDateTime.now();
@@ -49,11 +56,21 @@ public class Article {
         this.updatedAt = LocalDateTime.now();
     }
 
+    public void update(ArticleRequestDto articleRequestDto) {
+        this.title = articleRequestDto.getTitle();
+        this.content = articleRequestDto.getContent();
+        this.updatedAt = LocalDateTime.now();
+    }
+
     public boolean compareUser(User user) {
         return compareUser(user.getId());
     }
 
     public boolean compareUser(Long id) {
         return this.user.getId().equals(id);
+    }
+
+    public boolean doesUserHasThis(User user) {
+        return this.compareUser(user);
     }
 }

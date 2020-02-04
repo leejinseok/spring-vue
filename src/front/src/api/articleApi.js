@@ -40,6 +40,20 @@ function postArticle({title = '', content = ''}) {
   });
 }
 
+function updateArticle(id, {title = '', content = ''}) {
+  return axios({
+    url: '/api/articles/' + id,
+    method: 'put',
+    headers: {
+      'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+    },
+    data: {
+      title,
+      content
+    }
+  });
+}
+
 function removeArticle(id) {
 
   return axios({
@@ -55,5 +69,6 @@ export default {
   getArticles,
   getArticle,
   postArticle,
+  updateArticle,
   removeArticle
 }

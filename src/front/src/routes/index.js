@@ -31,6 +31,7 @@ export const router = new VueRouter({
     },
     {
       path: '/articles/write',
+      name: 'WriteArticle',
       component: WriteArticle
     },
     {

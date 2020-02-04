@@ -13,6 +13,7 @@
 
         <div v-if="article.isOwn">
             <button type="button" @click="remove">삭제</button>
+            <router-link :to="{name: 'WriteArticle', query: {id: article.id}}">수정</router-link>
         </div>
     </div>
 </template>

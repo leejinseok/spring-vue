@@ -21,6 +21,17 @@ public class ArticleService {
         return new ArticleResponseDto(article, user);
     }
 
+    public ArticleResponseDto update(Long articleId, ArticleRequestDto articleRequestDto, User user) {
+        Article article = articleRepository.findById(articleId).orElseThrow(ArticleException.passNoExistException(articleId));
+        if (!article.doesUserHasThis(user)) {
+            throw new ArticleException.AccessNotOwned(articleId);
+        }
+
+        article.update(articleRequestDto);
+
+        return new ArticleResponseDto(articleRepository.save(article), user);
+    }
+
     public List<ArticleResponseDto> findAll(Pageable pageable, User user) {
         return articleRepository.findAll(pageable)
             .stream()
@@ -35,5 +46,12 @@ public class ArticleService {
 
     public void delete(Long id, User user) {
         articleRepository.deleteById(id, user);
+    }
+
+    private void doesUserHasThisArticle(Long articleId, User user) {
+        Article article = articleRepository.findById(articleId).orElseThrow(ArticleException.passNoExistException(articleId));
+        if (!article.compareUser(user)) {
+            throw new ArticleException.AccessNotOwned(articleId);
+        }
     }
 }

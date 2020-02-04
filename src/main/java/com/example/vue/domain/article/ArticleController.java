@@ -31,6 +31,16 @@ public class ArticleController {
         return articleService.findById(articleId, user);
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping(value = "/{articleId}")
+    @Transactional
+    public ArticleResponseDto updateArticle(@PathVariable Long articleId,
+                                            @RequestBody @Valid ArticleRequestDto articleRequestDto,
+                                            @AuthenticationPrincipal User user) {
+
+        return articleService.update(articleId, articleRequestDto, user);
+    }
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     @Transactional
