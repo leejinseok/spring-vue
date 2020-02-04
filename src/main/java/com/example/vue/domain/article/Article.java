@@ -1,5 +1,6 @@
 package com.example.vue.domain.article;
 
+import com.example.vue.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -15,13 +16,16 @@ import java.time.LocalDateTime;
 public class Article {
 
     @Id @GeneratedValue
-    Long id;
+    private Long id;
 
     @Column(name = "title")
     private String title;
 
     @Column(name = "content")
     private String content;
+
+    @ManyToOne
+    private User user;
 
     @CreatedDate
     private LocalDateTime createdAt;

@@ -1,8 +1,7 @@
 <template>
     <div v-if="!pending">
         <article v-for="article in articles" v-bind:key="article.id">
-            <span>{{ article.title }}</span>
-            <span>{{ article }}</span>
+            <router-link :to="{name: 'DetailArticle', params: {id: article.id}}"><span>{{ article.title }}</span></router-link>
         </article>
 
         <div>

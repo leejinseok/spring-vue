@@ -1,5 +1,6 @@
 package com.example.vue.domain.article;
 
+import com.example.vue.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,5 +24,12 @@ public class ArticleService {
             .stream()
             .map(ArticleResponseDto::new)
             .collect(Collectors.toList());
+    }
+
+    public ArticleResponseDto findById(Long id, User user) {
+        Article article = articleRepository.findById(id).orElseThrow(ArticleException.passNoExistException(id));
+        ArticleResponseDto articleResponseDto = new ArticleResponseDto(article);
+        articleResponseDto.setOwn(article.getUser().getId().equals(user.getId()));
+        return articleResponseDto;
     }
 }

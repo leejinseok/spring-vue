@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -27,6 +28,10 @@ public class ArticleRepository {
             .setFirstResult(page * size)
             .setMaxResults(page * size + size)
             .getResultList();
+    }
+
+    public Optional<Article> findById(Long id) {
+        return Optional.ofNullable(em.find(Article.class, id));
     }
 
 }

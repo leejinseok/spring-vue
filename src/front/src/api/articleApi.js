@@ -16,6 +16,15 @@ function getArticles({page = 0, size = 10, q = ''}) {
   });
 }
 
+function getArticle(id) {
+  return axios({
+    url: '/api/articles/' + id,
+    headers: {
+      'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+    }
+  });
+}
+
 function postArticle({title = '', content = ''}) {
 
   return axios({
@@ -33,5 +42,6 @@ function postArticle({title = '', content = ''}) {
 
 export default {
   getArticles,
+  getArticle,
   postArticle
 }
