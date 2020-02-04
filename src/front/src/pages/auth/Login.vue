@@ -23,7 +23,16 @@
                 password: ''
             }
         },
-        methods: {
+      async beforeCreate() {
+          const accessToken = this.$cookie.get('accessToken');
+          try {
+            await authApi.session.bind(this)(accessToken);
+            await this.$router.replace('/articles');
+          } catch (e) {
+            console.log(e);
+          }
+      },
+      methods: {
             submit: async function(evt) {
                 evt.preventDefault();
                 const { email, password } = this;

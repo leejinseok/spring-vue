@@ -9,12 +9,17 @@
         <div>
             <router-link to="/articles/write">글쓰기</router-link>
         </div>
+
+        <div>
+            <button type="button" @click="logout">로그아웃</button>
+        </div>
     </div>
 </template>
 
 <script>
     import articleApi from "../../api/articleApi";
     import authentication from "../../middlewares/authentication";
+    import authApi from "../../api/authApi";
 
     export default {
         name: "List",
@@ -40,6 +45,19 @@
           } catch (err) {
             alert('문제가 발생하였습니다.');
             console.log(err.response);
+          }
+        },
+        methods: {
+          async logout() {
+            if (!confirm('정말 로그아웃 하시겠습니까?')) return;
+
+            try {
+              await authApi.logout.bind(this)();
+              await this.$router.push('/');
+            } catch (e) {
+                console.log(e);
+            }
+
           }
         }
     }

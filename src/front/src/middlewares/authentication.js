@@ -8,5 +8,4 @@ export default async function () {
       'Authorization': 'Bearer ' + this.$cookie.get('accessToken')
     }
   });
-
 }
