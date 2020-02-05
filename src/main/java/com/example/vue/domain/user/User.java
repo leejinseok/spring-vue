@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NamedQuery(name = "findByEmail", query = "select u from User u where u.email = :email")
+@NamedQuery(name = "findAllUser", query = "select u from User u order by u.id asc")
 @NoArgsConstructor
 public class User  {
 

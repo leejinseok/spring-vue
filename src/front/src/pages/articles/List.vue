@@ -1,7 +1,10 @@
 <template>
     <div v-if="!pending">
         <article v-for="article in articles" v-bind:key="article.id">
-            <router-link :to="{name: 'DetailArticle', params: {id: article.id}}"><span>{{ article.title }}</span></router-link>
+            <router-link :to="{name: 'DetailArticle', params: {id: article.id}}">
+                <span>{{ article.title }}</span>
+            </router-link>
+            <span @click="clickUser">{{ article.user.name }}</span>
         </article>
 
         <br>
@@ -62,6 +65,9 @@
                 console.log(e);
             }
 
+          },
+          clickUser(evt) {
+            console.log(evt.target);
           }
         }
     }

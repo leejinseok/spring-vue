@@ -1,6 +1,7 @@
 package com.example.vue.domain.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -24,6 +25,16 @@ public class UserRepository {
 
     public Optional<User> findById(Long id) {
         return Optional.ofNullable(em.find(User.class, id));
+    }
+
+    public List<User> findAll(Pageable pageable) {
+        int page = pageable.getPageNumber();
+        int size = pageable.getPageSize();
+
+        return em.createNamedQuery("findAllUser", User.class)
+            .setFirstResult(page * size)
+            .setMaxResults(page * size + size)
+            .getResultList();
     }
 
 }
