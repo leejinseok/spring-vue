@@ -7,6 +7,7 @@ import Register from "../pages/auth/Register";
 import Articles from "../pages/articles/List";
 import WriteArticle from '../pages/articles/Write';
 import DetailArticle from '../pages/articles/Detail';
+import Info from "../pages/me/Info";
 
 Vue.use(VueRouter);
 
@@ -38,6 +39,10 @@ export const router = new VueRouter({
       path: '/articles/:id',
       name: 'DetailArticle',
       component: DetailArticle
+    },
+    {
+      path: '/me',
+      component: Info
     }
   ]
 });

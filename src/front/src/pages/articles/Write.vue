@@ -45,12 +45,13 @@
 
       if (id) {
         try {
-          const result = await articleApi.getArticle(id);
-          const {title, content} = result.data;
+          const { data } = await articleApi.getArticle(id);
+          const {title, content} = data;
           this.title = title;
           this.content = content;
           this.isEdit = true;
         } catch (err) {
+          alert('문제가 발생하였습니다.');
           console.log(err);
         }
       }
