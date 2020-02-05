@@ -24,9 +24,12 @@
             }
         },
       async beforeCreate() {
-          const accessToken = this.$cookie.get('accessToken');
+          authApi.bind(this);
+
+
+
           try {
-            await authApi.session.bind(this)(accessToken);
+            await authApi.session();
             await this.$router.replace('/articles');
           } catch (e) {
             console.log(e);
@@ -48,9 +51,8 @@
 
             },
             session: async function(evt) {
-                const accessToken = this.$cookie.get('accessToken');
                 try {
-                    const result = await authApi.session(accessToken);
+                    const result = await authApi.session();
                     console.log(result);
                 } catch (err) {
                     console.log(err);

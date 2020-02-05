@@ -11,9 +11,10 @@
     export default {
         name: "Welcome",
       async beforeCreate() {
-        const accessToken = this.$cookie.get('accessToken');
+          authApi.bind(this);
+
         try {
-          await authApi.session.bind(this)(accessToken);
+          await authApi.session();
           await this.$router.replace('/articles');
         } catch (e) {
           console.log(e);

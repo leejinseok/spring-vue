@@ -30,8 +30,12 @@
           }
         },
         async beforeCreate() {
+          authentication.bind(this);
+          articleApi.bind(this);
+          authApi.bind(this);
+
           try {
-            await authentication.bind(this)();
+            await authentication.session();
           } catch (e) {
             alert('토큰이 존재하지 않거나 유효하지 않은 토큰입니다.');
             await this.$router.replace('/');
@@ -39,7 +43,7 @@
           }
 
           try {
-            const result = await articleApi.getArticles.bind(this)({});
+            const result = await articleApi.getArticles({});
             this.articles = result.data;
             this.pending = false;
           } catch (err) {
@@ -52,7 +56,7 @@
             if (!confirm('정말 로그아웃 하시겠습니까?')) return;
 
             try {
-              await authApi.logout.bind(this)();
+              await authApi.logout();
               await this.$router.push('/');
             } catch (e) {
                 console.log(e);

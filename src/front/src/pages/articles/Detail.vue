@@ -30,9 +30,11 @@
       }
     },
     async beforeCreate() {
+      articleApi.bind(this);
+
       try {
         const articleId = this.$route.params.id;
-        const result = await articleApi.getArticle.bind(this)(articleId);
+        const result = await articleApi.getArticle(articleId);
         this.article = result.data;
         this.init = true;
 
@@ -46,7 +48,7 @@
         if(!confirm('정말 삭제하시겠습니까?')) return;
 
         try {
-          await articleApi.removeArticle.bind(this)(articleId);
+          await articleApi.removeArticle(articleId);
           await this.$router.push('/articles');
         } catch (e) {
           alert('문제가 발생하였습니다.');

@@ -25,7 +25,7 @@
                 evt.preventDefault();
                 const { email, name, password } = this;
                 try {
-                    const result = await authApi.register({email, name, password});
+                    await authApi.register({email, name, password});
                 } catch (err) {
                     if (err.response.status === 409) {
                       alert('이미 존재하는 이메일입니다.');

@@ -30,8 +30,11 @@
       }
     },
     async beforeCreate() {
+      authentication.bind(this);
+      articleApi.bind(this);
+
       try {
-        authentication.bind(this)();
+        await authentication.session();
       } catch (err) {
         alert('토큰이 존재하지 않거나 유효하지 않은 토큰입니다.');
         await this.$router.replace('/');
@@ -42,7 +45,7 @@
 
       if (id) {
         try {
-          const result = await articleApi.getArticle.bind(this)(id);
+          const result = await articleApi.getArticle(id);
           const {title, content} = result.data;
           this.title = title;
           this.content = content;
@@ -53,7 +56,7 @@
       }
     },
     methods: {
-        create: async function(evt) {
+        async create(evt) {
           evt.preventDefault();
 
           const {title, content} = this;
@@ -64,7 +67,7 @@
           };
 
           try {
-            await articleApi.postArticle.bind(this)(data);
+            await articleApi.postArticle(data);
             await this.$router.push('/articles');
           } catch (err) {
             alert('문제가 발생하였습니다.');
@@ -84,7 +87,7 @@
           };
 
           try {
-            await articleApi.updateArticle.bind(this)(id, data);
+            await articleApi.updateArticle(id, data);
             await this.$router.push('/articles');
           } catch (err) {
             alert('문제가 발생하였습니다.');
