@@ -5,8 +5,8 @@ import com.example.vue.domain.user.User;
 import com.example.vue.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
-import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,6 +35,8 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
 
+//        throw new BadCredentialsException("Hello");
+
         Authentication authentication = getAuthentication(request);
 
         if (authentication != null) {
@@ -55,7 +57,7 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
         String token = authorizationHeader.substring("Bearer ".length());
 
-        Claims claims = null;
+        Claims claims;
         try {
             claims = jwtUtil.getClaims(token);
         } catch (JwtException e) {
