@@ -22,31 +22,27 @@
 <script>
     import authApi from "../../api/authApi";
 
-  export default {
-    name: "Info",
-    data() {
-      return {
-        user: null,
-        init: false
-      }
-    },
-    async beforeCreate() {
-      authApi.bind(this);
+    export default {
+        name: "Info",
+        data() {
+          return {
+            user: null,
+            init: false
+          }
+        },
+        async beforeCreate() {
+            authApi.bind(this);
 
-      try {
-        const { data } = await authApi.session();
-        this.user = data;
-      } catch (err) {
-        console.log(err);
-        await this.$router.replace('/auth/login');
-      }
+            try {
+                const { data } = await authApi.session();
+                this.user = data;
+            } catch (err) {
+                await this.$router.replace('/auth/login');
+            }
+        }
     }
-  }
 </script>
 
 <style scoped>
-    .row {
-        display: flex;
-        justify-content: space-between;
-    }
+
 </style>
