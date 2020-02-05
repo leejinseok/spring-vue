@@ -13,7 +13,7 @@ public class JwtUtil {
 
     private Key key;
 
-    public static long PLUS_MILLS = (1000 * 60 * 60 * 24) * 0L;
+    public static long PLUS_MILLS = (1000 * 60 * 60 * 24) * 30L;
 
     public JwtUtil(String secret) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
