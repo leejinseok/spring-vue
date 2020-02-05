@@ -5,6 +5,7 @@ import com.example.vue.domain.user.User;
 import com.example.vue.util.JwtUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
+import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -46,16 +47,17 @@ public class JwtAuthenticationFilter extends BasicAuthenticationFilter {
 
     private Authentication getAuthentication(HttpServletRequest request) {
 
-        String token = request.getHeader("Authorization");
+        String authorizationHeader = request.getHeader("Authorization");
 
-        if (token == null) {
+        if (authorizationHeader == null) {
             return null;
         }
 
-        Claims claims;
+        String token = authorizationHeader.substring("Bearer ".length());
 
+        Claims claims = null;
         try {
-            claims = jwtUtil.getClaims(token.substring("Bearer ".length()));
+            claims = jwtUtil.getClaims(token);
         } catch (JwtException e) {
             throw new AuthException.MalformedJwt(token);
         }

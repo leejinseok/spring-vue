@@ -34,6 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/auth/register").permitAll()
             .antMatchers("/users").authenticated()
             .antMatchers("/articles").authenticated()
+            .antMatchers("/me").authenticated()
             .and()
             .formLogin().disable()
             .addFilter(jwtAuthenticationFilter())
@@ -54,4 +55,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private Filter jwtAuthenticationFilter() throws Exception {
         return new JwtAuthenticationFilter(authenticationManager(), jwtUtil());
     }
+
 }

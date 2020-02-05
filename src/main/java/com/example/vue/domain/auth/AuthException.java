@@ -1,8 +1,10 @@
 package com.example.vue.domain.auth;
 
-import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.naming.AuthenticationException;
 
 public class AuthException {
 
@@ -28,9 +30,16 @@ public class AuthException {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public static class MalformedJwt extends JwtException {
+    public static class MalformedJwt extends AccessDeniedException {
         public MalformedJwt(String token) {
             super("올바르지 않은 토큰 입니다. [token=" + token + "]");
+        }
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public static class ExpiredJwt extends AuthenticationException {
+        public ExpiredJwt(String token) {
+            super("만료 된 토큰입니다. [accessToken=" + token + "]");
         }
     }
 }
