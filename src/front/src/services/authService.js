@@ -35,7 +35,12 @@ export default {
         }
     },
     async progressIfUserAuthenticated() {
-
+        try {
+            await authApi.session(commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken')));
+            await this.$router.replace('/articles');
+        } catch (err) {
+            console.log(err);
+        }
     },
     async banishIfUserUnAuthenticated() {
         try {

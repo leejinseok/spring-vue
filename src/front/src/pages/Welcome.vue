@@ -9,19 +9,16 @@
 
 <script>
     import authApi from "../api/authApi";
+    import authService from "../services/authService";
 
     export default {
         name: "Welcome",
         async beforeCreate() {
             authApi.session = authApi.session.bind(this);
+            authService.progressIfUserAuthenticated = authService.progressIfUserAuthenticated.bind(this);
         },
         async created() {
-            try {
-                await authApi.session();
-                await this.$router.replace("/articles");
-            } catch (e) {
-                console.log(e);
-            }
+            await authService.progressIfUserAuthenticated();
         }
     };
 </script>

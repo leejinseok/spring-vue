@@ -15,23 +15,20 @@
 
     export default {
         name: "Login",
+        beforeCreate() {
+            authApi.session = authApi.session.bind(this);
+            authService.login = authService.login.bind(this);
+            authService.progressIfUserAuthenticated = authService.progressIfUserAuthenticated.bind(this);
+
+        },
         data() {
             return {
                 email: "",
                 password: ""
             };
         },
-        beforeCreate() {
-            authApi.session = authApi.session.bind(this);
-            authService.login = authService.login.bind(this);
-        },
         async created() {
-            try {
-                await authApi.session();
-                await this.$router.replace("/articles");
-            } catch (e) {
-                console.log(e);
-            }
+            await authService.progressIfUserAuthenticated()
         },
         methods: {
             submit: async function (evt) {

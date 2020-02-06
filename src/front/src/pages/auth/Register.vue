@@ -27,14 +27,10 @@
             authApi.session = authApi.session.bind(this);
 
             authService.register = authService.register.bind(this);
+            authService.progressIfUserAuthenticated = authService.progressIfUserAuthenticated.bind(this);
         },
         async created() {
-            try {
-                await authApi.session();
-                await this.$router.replace("/articles");
-            } catch (err) {
-                console.log(err);
-            }
+            await authService.progressIfUserAuthenticated();
         },
         methods: {
             register: async function (evt) {
