@@ -30,16 +30,13 @@
       }
     },
     async beforeCreate() {
-      authentication.bind(this);
-      articleApi.bind(this);
-
-      try {
-        await authentication.session();
-      } catch (err) {
-        alert('토큰이 존재하지 않거나 유효하지 않은 토큰입니다.');
-        await this.$router.replace('/');
-        return;
-      }
+      authentication.session = authentication.session.bind(this);
+      articleApi.getArticle = articleApi.getArticle.bind(this);
+      articleApi.postArticle = articleApi.postArticle.bind(this);
+      articleApi.updateArticle = articleApi.updateArticle.bind(this);
+    },
+    async created() {
+      await authentication.session();
 
       const id = this.$route.query.id;
 

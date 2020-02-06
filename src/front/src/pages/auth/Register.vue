@@ -20,7 +20,19 @@
               password: ''
             }
         },
-        methods: {
+      beforeCreate() {
+          authApi.register = authApi.register.bind(this);
+          authApi.session = authApi.session.bind(this);
+      },
+      async created() {
+        try {
+          await authApi.session();
+          await this.$router.replace("/articles");
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      methods: {
             register: async function(evt) {
                 evt.preventDefault();
                 const { email, name, password } = this;

@@ -2,13 +2,6 @@ import axios from 'axios';
 import commonUtil from "../utils/commonUtil";
 
 export default {
-  bind(context) {
-    this.getArticle = this.getArticle.bind(context);
-    this.getArticles = this.getArticles.bind(context);
-    this.postArticle = this.postArticle.bind(context);
-    this.updateArticle = this.updateArticle.bind(context);
-    this.removeArticle = this.removeArticle.bind(context);
-  },
   getArticles({page = 0, size = 10, q = ''}) {
 
     return axios({

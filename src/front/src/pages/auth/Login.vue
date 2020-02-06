@@ -1,14 +1,11 @@
 <template>
     <div>
         <router-link to="/">home</router-link>
-
         <form @submit="submit">
             <input type="email" v-model="email">
             <input type="password" v-model="password">
             <button type="submit">확인</button>
         </form>
-
-        <button type="button" @click="session">세션확인</button>
     </div>
 </template>
 
@@ -23,17 +20,16 @@
                 password: ''
             }
         },
-      async beforeCreate() {
-          authApi.bind(this);
-
-
-
-          try {
-            await authApi.session();
-            await this.$router.replace('/articles');
-          } catch (e) {
-            console.log(e);
-          }
+      beforeCreate() {
+        authApi.session = authApi.session.bind(this);
+      },
+      async created() {
+        try {
+          await authApi.session();
+          await this.$router.replace('/articles');
+        } catch (e) {
+          console.log(e);
+        }
       },
       methods: {
             submit: async function(evt) {
@@ -50,14 +46,6 @@
                 }
 
             },
-            session: async function(evt) {
-                try {
-                    const result = await authApi.session();
-                    console.log(result);
-                } catch (err) {
-                    console.log(err);
-                }
-            }
         }
     }
 </script>

@@ -11,8 +11,9 @@
     export default {
         name: "Welcome",
       async beforeCreate() {
-          authApi.bind(this);
-
+          authApi.session = authApi.session.bind(this);
+      },
+      async created() {
         try {
           await authApi.session();
           await this.$router.replace('/articles');

@@ -1,13 +1,8 @@
 import axios from "axios";
+import commonUtil from "../utils/commonUtil";
 
 
 export default {
-  bind(context) {
-    this.login = this.login.bind(context);
-    this.session = this.session.bind(context);
-    this.register = this.register.bind(context);
-    this.logout = this.logout.bind(context);
-  },
   login(data) {
     const { email, password } = data;
     return axios({
@@ -24,7 +19,7 @@ export default {
       method: 'get',
       url: '/api/users',
       headers: {
-        'Authorization': 'Bearer ' + this.$cookie.get('accessToken')
+        'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
       }
     });
   },

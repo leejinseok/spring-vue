@@ -30,8 +30,10 @@
       }
     },
     async beforeCreate() {
-      articleApi.bind(this);
-
+      articleApi.getArticle = articleApi.getArticle.bind(this);
+      articleApi.removeArticle = articleApi.removeArticle.bind(this);
+    },
+    async created() {
       try {
         const articleId = this.$route.params.id;
         const result = await articleApi.getArticle(articleId);
@@ -41,6 +43,7 @@
       } catch (e) {
         console.log(e);
       }
+
     },
     methods: {
       async remove() {
