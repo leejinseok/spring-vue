@@ -1,6 +1,5 @@
-
 export default {
-  getAuthenticationHeaderBearer(accessToken) {
-    return 'Bearer ' + accessToken;
-  }
+    getAuthenticationHeaderBearer(accessToken) {
+        return 'Bearer ' + accessToken;
+    }
 };

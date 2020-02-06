@@ -3,7 +3,7 @@
         <form @submit="isEdit ? update($event) : create($event)">
             <div class="row">
                 <label for="title">Title</label>
-                <input type="text" id="title" v-model="title">
+                <input type="text" id="title" v-model="title"/>
             </div>
             <div class="row">
                 <label for="content">Content</label>
@@ -17,51 +17,57 @@
 </template>
 
 <script>
-  import articleService from "../../services/articleService";
-  import authService from "../../services/authService";
+    import articleService from "../../services/articleService";
+    import authService from "../../services/authService";
 
-  export default {
-    name: "Write",
-    data() {
-      return {
-        title: '',
-        content: '',
-        isEdit: false
-      }
-    },
-    async beforeCreate() {
-      authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(this);
-      articleService.postArticle = articleService.postArticle.bind(this);
-      articleService.updateArticle = articleService.updateArticle.bind(this);
-      articleService.getArticle = articleService.getArticle.bind(this);
-      articleService.doseSessionHasPermission = articleService.doseSessionHasPermission.bind(this);
-    },
-    async created() {
-
-      const id = this.$route.query.id;
-      if (id) {
-        await authService.banishIfUserUnAuthenticated();
-        const { title, content, user } = await articleService.getArticle(id);
-        await articleService.doseSessionHasPermission(user);
-
-        this.title = title;
-        this.content = content;
-        this.isEdit = true;
-      }
-    },
-    methods: {
-        async create(evt) {
-          evt.preventDefault();
-          const {title, content} = this;
-          await articleService.postArticle({title, content});
+    export default {
+        name: "Write",
+        data() {
+            return {
+                title: "",
+                content: "",
+                isEdit: false
+            };
         },
-        async update(evt) {
-          evt.preventDefault();
-          const {title, content} = this;
-          await articleService.updateArticle(this.$route.query.id, {title, content});
+        async beforeCreate() {
+            authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(
+                this
+            );
+            articleService.postArticle = articleService.postArticle.bind(this);
+            articleService.updateArticle = articleService.updateArticle.bind(this);
+            articleService.getArticle = articleService.getArticle.bind(this);
+            articleService.doseSessionHasPermission = articleService.doseSessionHasPermission.bind(
+                this
+            );
+        },
+        async created() {
+            const id = this.$route.query.id;
+            if (id) {
+                await authService.banishIfUserUnAuthenticated();
+                const {title, content, user} = await articleService.getArticle(id);
+                await articleService.doseSessionHasPermission(user);
+
+                this.title = title;
+                this.content = content;
+                this.isEdit = true;
+            }
+        },
+        methods: {
+            async create(evt) {
+                evt.preventDefault();
+                const {title, content} = this;
+                await articleService.postArticle({title, content});
+            },
+            async update(evt) {
+                evt.preventDefault();
+                const {title, content} = this;
+                await articleService.updateArticle(this.$route.query.id, {
+                    title,
+                    content
+                });
+            }
         }
-    }
-  }
+    };
 </script>
 
 <style scoped>

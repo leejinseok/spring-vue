@@ -25,24 +25,23 @@
     export default {
         name: "Info",
         data() {
-          return {
-            user: null,
-            init: false
-          }
+            return {
+                user: null,
+                init: false
+            };
         },
         async beforeCreate() {
             authApi.bind(this);
 
             try {
-                const { data } = await authApi.session();
+                const {data} = await authApi.session();
                 this.user = data;
             } catch (err) {
-                await this.$router.replace('/auth/login');
+                await this.$router.replace("/auth/login");
             }
         }
-    }
+    };
 </script>
 
 <style scoped>
-
 </style>
