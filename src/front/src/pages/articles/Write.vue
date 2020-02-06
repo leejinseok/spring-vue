@@ -17,8 +17,8 @@
 </template>
 
 <script>
-    import articleApi from "../../api/articleApi";
-    import authentication from "../../middlewares/authentication";
+  import articleService from "../../services/articleService";
+  import authService from "../../services/authService";
 
   export default {
     name: "Write",
@@ -30,67 +30,38 @@
       }
     },
     async beforeCreate() {
-      authentication.session = authentication.session.bind(this);
-      articleApi.getArticle = articleApi.getArticle.bind(this);
-      articleApi.postArticle = articleApi.postArticle.bind(this);
-      articleApi.updateArticle = articleApi.updateArticle.bind(this);
+      authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(this);
+      articleService.postArticle = articleService.postArticle.bind(this);
+      articleService.updateArticle = articleService.updateArticle.bind(this);
+      articleService.getArticle = articleService.getArticle.bind(this);
+      articleService.doseSessionHasPermission = articleService.doseSessionHasPermission.bind(this);
     },
     async created() {
-      await authentication.session();
 
       const id = this.$route.query.id;
-
       if (id) {
-        try {
-          const { data } = await articleApi.getArticle(id);
-          const {title, content} = data;
-          this.title = title;
-          this.content = content;
-          this.isEdit = true;
-        } catch (err) {
-          alert('문제가 발생하였습니다.');
-          console.log(err);
-        }
+        await authService.banishIfUserUnAuthenticated();
+        const { title, content, user } = await articleService.getArticle(id);
+        await articleService.doseSessionHasPermission(user);
+
+        this.title = title;
+        this.content = content;
+        this.isEdit = true;
+
       }
     },
     methods: {
         async create(evt) {
           evt.preventDefault();
-
           const {title, content} = this;
-
-          const data = {
-            title,
-            content
-          };
-
-          try {
-            await articleApi.postArticle(data);
-            await this.$router.push('/articles');
-          } catch (err) {
-            alert('문제가 발생하였습니다.');
-            console.log(err);
-          }
+          await articleService.postArticle({title, content});
 
         },
         async update(evt) {
           evt.preventDefault();
-
           const id = this.$route.query.id;
-
           const {title, content} = this;
-          const data = {
-            title,
-            content
-          };
-
-          try {
-            await articleApi.updateArticle(id, data);
-            await this.$router.push('/articles');
-          } catch (err) {
-            alert('문제가 발생하였습니다.');
-            console.log(err);
-          }
+          await articleService.updateArticle(id, {title, content});
         }
     }
   }

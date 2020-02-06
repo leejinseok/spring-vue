@@ -24,13 +24,13 @@ export default {
       }
     });
   },
-  postArticle({title = '', content = ''}) {
+  postArticle({title = '', content = ''}, authorization) {
 
     return axios({
       url: '/api/articles',
       method: 'post',
       headers: {
-        'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+        'Authorization': authorization
       },
       data: {
         title,
@@ -38,12 +38,12 @@ export default {
       }
     });
   },
-  updateArticle(id, {title = '', content = ''}) {
+  updateArticle(id, {title = '', content = ''}, authorization) {
     return axios({
       url: '/api/articles/' + id,
       method: 'put',
       headers: {
-        'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+        'Authorization': authorization
       },
       data: {
         title,

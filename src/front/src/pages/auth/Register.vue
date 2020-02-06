@@ -11,6 +11,7 @@
 
 <script>
     import authApi from "../../api/authApi";
+    import authService from "../../services/authService";
 
     export default {
         name: "Register",
@@ -24,6 +25,8 @@
       beforeCreate() {
           authApi.register = authApi.register.bind(this);
           authApi.session = authApi.session.bind(this);
+
+          authService.register = authService.register.bind(this);
       },
       async created() {
         try {
@@ -37,13 +40,15 @@
             register: async function(evt) {
                 evt.preventDefault();
                 const { email, name, password } = this;
-                try {
-                    await authApi.register({email, name, password});
-                } catch (err) {
-                    if (err.response.status === 409) {
-                      alert('이미 존재하는 이메일입니다.');
-                    }
-                }
+                await authService.register({email, name, password});
+
+                // try {
+                //     await authApi.register({email, name, password});
+                // } catch (err) {
+                //     if (err.response.status === 409) {
+                //       alert('이미 존재하는 이메일입니다.');
+                //     }
+                // }
             }
         }
     }

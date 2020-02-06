@@ -1,5 +1,4 @@
 import authApi from "../api/authApi";
-import authentication from "../middlewares/authentication";
 import commonUtil from "../utils/commonUtil";
 
 export default {
@@ -13,6 +12,17 @@ export default {
       const message = err.response.data.message;
       if (~message.indexOf('패스워드')) {
         alert('패스워드가 일치하지 않습니다.');
+      }
+    }
+  },
+  async register(data) {
+    try {
+      await authApi.register(data);
+      alert('가입이 완료되었습니다. 로그인 해 주세요');
+      await this.$router.push('/auth/login');
+    } catch (err) {
+      if (err.response.status === 409) {
+        alert('이미 존재하는 이메일입니다.');
       }
     }
   },
@@ -33,7 +43,7 @@ export default {
     } catch (e) {
       alert('토큰이 존재하지 않거나 유효하지 않은 토큰입니다.');
       await this.$router.replace('/');
-      return;
     }
-  }
+  },
+
 }

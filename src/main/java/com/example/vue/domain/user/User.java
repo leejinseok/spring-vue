@@ -48,6 +48,7 @@ public class User  {
         this.password = registerRequestDto.getPassword();
         this.email = registerRequestDto.getEmail();
         this.name = registerRequestDto.getName();
+        this.createdAt = LocalDateTime.now();
     }
 
 }
