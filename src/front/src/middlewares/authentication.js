@@ -8,7 +8,7 @@ export default {
         method: 'get',
         url: '/api/users',
         headers: {
-          'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+          'Authorization': commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken'))
         }
       });
     } catch (e) {

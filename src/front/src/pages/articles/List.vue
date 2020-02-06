@@ -28,6 +28,8 @@
     import authentication from "../../middlewares/authentication";
     import authApi from "../../api/authApi";
     import commonUtil from "../../utils/commonUtil";
+    import authService from "../../services/authService";
+    import articleService from "../../services/articleService";
 
     export default {
         name: "List",
@@ -38,40 +40,18 @@
           }
         },
         async beforeCreate() {
-          authentication.session = authentication.session.bind(this);
-          articleApi.getArticles = articleApi.getArticles.bind(this);
-          authApi.logout = authApi.logout.bind(this);
-
+          articleService.getArticles = articleService.getArticles.bind(this);
+          authService.logout = authService.logout.bind(this);
+          authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(this);
         },
       async created() {
-        try {
-          await authentication.session();
-        } catch (e) {
-          alert('토큰이 존재하지 않거나 유효하지 않은 토큰입니다.');
-          await this.$router.replace('/');
-          return;
-        }
-
-        try {
-          const result = await articleApi.getArticles({});
-          this.articles = result.data;
-          this.pending = false;
-        } catch (err) {
-          alert('문제가 발생하였습니다.');
-          console.log(err.response);
-        }
+        await authService.banishIfUserUnAuthenticated();
+        await articleService.getArticles({});
       },
       methods: {
           async logout() {
             if (!confirm('정말 로그아웃 하시겠습니까?')) return;
-
-            try {
-              await authApi.logout();
-              await this.$router.push('/');
-            } catch (e) {
-                console.log(e);
-            }
-
+            await authService.logout();
           },
           clickUser(evt) {
             console.log(evt.target);

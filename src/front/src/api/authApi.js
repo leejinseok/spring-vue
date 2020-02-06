@@ -14,12 +14,12 @@ export default {
       }
     });
   },
-  session() {
+  session(authorization) {
     return axios({
       method: 'get',
       url: '/api/users',
       headers: {
-        'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+        'Authorization': authorization
       }
     });
   },
@@ -35,8 +35,5 @@ export default {
       }
     });
   },
-  logout() {
-    this.$cookie.set('accessToken', null, 0);
-  }
 }
 

@@ -11,6 +11,7 @@
 
 <script>
     import authApi from "../../api/authApi";
+    import authService from "../../services/authService";
 
     export default {
         name: "Login",
@@ -22,6 +23,7 @@
         },
       beforeCreate() {
         authApi.session = authApi.session.bind(this);
+        authService.login = authService.login.bind(this);
       },
       async created() {
         try {
@@ -36,14 +38,19 @@
                 evt.preventDefault();
                 const { email, password } = this;
 
-                try {
-                    const result = await authApi.login({email, password});
-                    const { token } = result.data;
-                    this.$cookie.set('accessToken', token, 1000);
-                    await this.$router.push('/articles');
-                } catch (err) {
-                    console.log(err);
-                }
+              await authService.login(email,password);
+
+                // try {
+                //     const result = await authApi.login({email, password});
+                //     const { token } = result.data;
+                //     this.$cookie.set('accessToken', token, 1000);
+                //     await this.$router.push('/articles');
+                // } catch (err) {
+                //     const message = err.response.data.message;
+                //     if (~message.indexOf('패스워드')) {
+                //       alert('패스워드가 일치하지 않습니다.');
+                //     }
+                // }
 
             },
         }

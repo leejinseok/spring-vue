@@ -2,12 +2,12 @@ import axios from 'axios';
 import commonUtil from "../utils/commonUtil";
 
 export default {
-  getArticles({page = 0, size = 10, q = ''}) {
+  getArticles({page = 0, size = 10, q = ''}, authorization) {
 
     return axios({
       url: '/api/articles',
       headers: {
-        'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+        'Authorization': authorization
       },
       params: {
         page,
@@ -16,11 +16,11 @@ export default {
       }
     });
   },
-  getArticle(id) {
+  getArticle({articleId}, authorization) {
     return axios({
-      url: '/api/articles/' + id,
+      url: '/api/articles/' + articleId,
       headers: {
-        'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+        'Authorization': authorization
       }
     });
   },
@@ -51,12 +51,12 @@ export default {
       }
     });
   },
-  removeArticle(id) {
+  removeArticle({articleId}, authorization) {
 
     return axios({
-      url: '/api/articles/' + id,
+      url: '/api/articles/' + articleId,
       headers: {
-        'Authorization': commonUtil.getAuthenticationHeaderBearer.bind(this)()
+        'Authorization': authorization
       },
       method: 'delete'
     });

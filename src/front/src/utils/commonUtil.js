@@ -1,6 +1,6 @@
 
 export default {
-  getAuthenticationHeaderBearer() {
-    return 'Bearer ' + this.$cookie.get('accessToken');
+  getAuthenticationHeaderBearer(accessToken) {
+    return 'Bearer ' + accessToken;
   }
 };

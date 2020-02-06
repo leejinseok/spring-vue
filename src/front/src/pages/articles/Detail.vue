@@ -1,6 +1,8 @@
 <template>
     <div>
         <div>
+        </div>
+        <div>
             title : <span>{{ article.title }}</span>
         </div>
         <div>
@@ -19,46 +21,36 @@
 </template>
 
 <script>
-  import articleApi from "../../api/articleApi";
+  import authService from "../../services/authService";
+  import articleService from "../../services/articleService";
 
   export default {
     name: "Detail",
     data() {
       return {
         article: {},
-        init: false
+        init: false,
+        test: ''
       }
     },
     async beforeCreate() {
-      articleApi.getArticle = articleApi.getArticle.bind(this);
-      articleApi.removeArticle = articleApi.removeArticle.bind(this);
+      authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(this);
+
+      articleService.getArticle = articleService.getArticle.bind(this);
+      articleService.removeArticle = articleService.removeArticle.bind(this);
     },
     async created() {
-      try {
-        const articleId = this.$route.params.id;
-        const result = await articleApi.getArticle(articleId);
-        this.article = result.data;
-        this.init = true;
 
-      } catch (e) {
-        console.log(e);
-      }
 
+      await articleService.getArticle(this.$route.params.id);
     },
     methods: {
       async remove() {
         const articleId = this.$route.params.id;
         if(!confirm('정말 삭제하시겠습니까?')) return;
 
-        try {
-          await articleApi.removeArticle(articleId);
-          await this.$router.push('/articles');
-        } catch (e) {
-          alert('문제가 발생하였습니다.');
-          console.log(e);
-        }
-
-      }
+        await articleService.removeArticle(articleId);
+      },
     }
   }
 </script>
