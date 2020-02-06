@@ -5,8 +5,7 @@ export default {
   async getArticles({page = 0, size = 10}) {
     try {
       const result = await articleApi.getArticles({page, size}, commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken')));
-      this.articles = result.data;
-      this.pending = false;
+      return result.data;
     } catch (err) {
       alert('문제가 발생하였습니다.');
       console.log(err.response);
@@ -16,9 +15,7 @@ export default {
     try {
       const authorization = commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken'));
       const result = await articleApi.getArticle({articleId}, authorization);
-      this.article = result.data;
-      this.init = true;
-
+      return result.data;
     } catch (e) {
       alert('문제가 발생하였습니다.');
       console.log(e);

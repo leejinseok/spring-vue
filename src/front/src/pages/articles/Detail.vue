@@ -40,9 +40,8 @@
       articleService.removeArticle = articleService.removeArticle.bind(this);
     },
     async created() {
-
-
-      await articleService.getArticle(this.$route.params.id);
+      this.article = await articleService.getArticle(this.$route.params.id);
+      this.init = true;
     },
     methods: {
       async remove() {

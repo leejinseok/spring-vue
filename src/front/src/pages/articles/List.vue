@@ -46,7 +46,8 @@
         },
       async created() {
         await authService.banishIfUserUnAuthenticated();
-        await articleService.getArticles({});
+        this.articles = await articleService.getArticles({});
+        this.pending = false;
       },
       methods: {
           async logout() {
