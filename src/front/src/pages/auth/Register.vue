@@ -11,6 +11,7 @@
 
 <script>
     import authApi from "../../api/authApi";
+
     export default {
         name: "Register",
         data() {
