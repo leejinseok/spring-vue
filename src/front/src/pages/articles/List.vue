@@ -24,14 +24,10 @@
 </template>
 
 <script>
-    import articleApi from "../../api/articleApi";
-    import authentication from "../../middlewares/authentication";
-    import authApi from "../../api/authApi";
-    import commonUtil from "../../utils/commonUtil";
-    import authService from "../../services/authService";
-    import articleService from "../../services/articleService";
+  import authService from "../../services/authService";
+  import articleService from "../../services/articleService";
 
-    export default {
+  export default {
         name: "List",
         data() {
           return {

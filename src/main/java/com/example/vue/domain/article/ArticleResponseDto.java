@@ -27,6 +27,6 @@ public class ArticleResponseDto {
         this.createdAt = article.getCreatedAt();
         this.updatedAt = article.getUpdatedAt();
         this.isOwn = article.compareUser(user);
-        this.user = new UserResponseDto(user);
+        this.user = new UserResponseDto(article.getUser());
     }
 }

@@ -47,7 +47,6 @@
         this.title = title;
         this.content = content;
         this.isEdit = true;
-
       }
     },
     methods: {
@@ -55,13 +54,11 @@
           evt.preventDefault();
           const {title, content} = this;
           await articleService.postArticle({title, content});
-
         },
         async update(evt) {
           evt.preventDefault();
-          const id = this.$route.query.id;
           const {title, content} = this;
-          await articleService.updateArticle(id, {title, content});
+          await articleService.updateArticle(this.$route.query.id, {title, content});
         }
     }
   }

@@ -62,7 +62,6 @@ export default {
     }
 
     try {
-      console.log(user, session);
       if (user.id !== session.id) {
         throw new Error("현재 사용자가 해당 게시글에 권한이 없습니다.");
       }
