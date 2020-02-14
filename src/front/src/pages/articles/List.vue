@@ -1,37 +1,47 @@
 <template>
-    <div v-if="!pending">
-        <article v-for="article in articles" v-bind:key="article.id">
-            <router-link :to="{name: 'DetailArticle', params: {id: article.id}}">
-                <span>{{ article.title }}</span>
-            </router-link>
-            <span @click="clickUser">{{ article.user.name }}</span>
-        </article>
+    <div>
+        <Header />
+        <div v-if="!pending">
+            <article v-for="article in articles" v-bind:key="article.id">
+                <router-link :to="{name: 'DetailArticle', params: {id: article.id}}">
+                    <span>{{ article.title }}</span>
+                </router-link>
+                <span @click="clickUser">{{ article.user.name }}</span>
+            </article>
 
-        <br/>
+            <br/>
 
-        <div v-if="user">
-            <div>
-                <router-link to="/articles/write">글쓰기</router-link>
-            </div>
+            <div v-if="user">
+                <div>
+                    <router-link to="/articles/write">글쓰기</router-link>
+                </div>
 
-            <div>
-                <button type="button" @click="logout">로그아웃</button>
-            </div>
+                <div>
+                    <button type="button" @click="logout">로그아웃</button>
+                </div>
 
-            <div>
-                <router-link to="/me">My</router-link>
+                <div>
+                    <router-link to="/me">My</router-link>
+                </div>
             </div>
         </div>
-        
     </div>
 </template>
 
 <script>
     import authService from "../../services/authService";
     import articleService from "../../services/articleService";
+    import Header from '../../components/common/Header';
 
     export default {
         name: "List",
+        components: {
+          Header
+        },
+        props: {
+            startSpin: Function,
+            stopSpin: Function
+        },
         data() {
             return {
                 articles: [],
@@ -48,6 +58,8 @@
             // );
         },
         async created() {
+            this.startSpin();
+
             try {
                 const { data } = await authService.session();
                 this.user = data;
@@ -55,9 +67,10 @@
                 console.log(err);
             }
 
-            // await authService.banishIfUserUnAuthenticated();
             this.articles = await articleService.getArticles({});
             this.pending = false;
+
+            this.stopSpin(true);
         },
         methods: {
             async logout() {

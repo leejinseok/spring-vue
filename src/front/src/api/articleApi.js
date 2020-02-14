@@ -50,6 +50,7 @@ export default {
         });
     },
     updateArticle(id, {title = '', content = ''}, authorization) {
+
         return axios({
             url: '/api/articles/' + id,
             method: 'put',
