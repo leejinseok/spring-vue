@@ -8,11 +8,13 @@ export default {
             const accessToken = this.$cookie.get('accessToken');
             const authorization = accessToken ? commonUtil.getAuthenticationHeaderBearer(accessToken) : '';
 
-            const result = await articleApi.getArticles({
+            const {data} = await articleApi.getArticles({
                 page,
                 size
             }, authorization);
-            return result.data;
+
+            return data;
+
         } catch (err) {
             alert('문제가 발생하였습니다.');
             console.log(err.response);

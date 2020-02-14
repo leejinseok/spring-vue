@@ -2,6 +2,8 @@ package com.example.vue.domain.article;
 
 import com.example.vue.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,11 +34,17 @@ public class ArticleService {
         return new ArticleResponseDto(articleRepository.save(article), user);
     }
 
-    public List<ArticleResponseDto> findAll(Pageable pageable, User user) {
-        return articleRepository.findAll(pageable)
+    public Page<ArticleResponseDto> findAll(Pageable pageable, User user) {
+        List<ArticleResponseDto> contents = articleRepository.findAll(pageable)
             .stream()
             .map(article -> new ArticleResponseDto(article, user))
             .collect(Collectors.toList());
+
+        int total = articleRepository.findTotal();
+
+        Page<ArticleResponseDto> page = new PageImpl<>(contents, pageable, total);
+
+        return page;
     }
 
     public ArticleResponseDto findById(Long id, User user) {

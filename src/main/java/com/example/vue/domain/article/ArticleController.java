@@ -2,6 +2,8 @@ package com.example.vue.domain.article;
 
 import com.example.vue.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -20,7 +22,7 @@ public class ArticleController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public List<ArticleResponseDto> getArticles(Pageable pageable, @AuthenticationPrincipal User user) {
+    public Page<ArticleResponseDto> getArticles(Pageable pageable, @AuthenticationPrincipal User user) {
         return articleService.findAll(pageable, user);
     }
 

@@ -67,7 +67,9 @@
                 console.log(err);
             }
 
-            this.articles = await articleService.getArticles({});
+            const articles = await articleService.getArticles({});
+
+            this.articles = articles.content;
             this.pending = false;
 
             this.stopSpin(true);
@@ -89,14 +91,23 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-bottom: 16px;
     }
+
     article a {
         font-size: 18px;
         text-align: left;
     }
 
+    article a:hover {
+        color: black;
+    }
+
     .article-wrapper {
         padding: 20px 16px;
         box-sizing: border-box;
+        max-width: 900px;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>

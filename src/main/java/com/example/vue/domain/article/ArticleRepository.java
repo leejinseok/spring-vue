@@ -2,8 +2,10 @@ package com.example.vue.domain.article;
 
 import com.example.vue.domain.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -29,6 +31,13 @@ public class ArticleRepository {
             .setFirstResult(page * size)
             .setMaxResults(page * size + size)
             .getResultList();
+    }
+
+    public Integer findTotal() {
+        return em.createNamedQuery("findAll", Article.class)
+            .setFirstResult(0)
+            .setMaxResults(999999999)
+            .getResultList().size();
     }
 
     public Optional<Article> findById(Long id) {
