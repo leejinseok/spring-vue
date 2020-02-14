@@ -41,7 +41,8 @@
                 const {data} = await authService.session();
                 this.user = data;
             } catch (err) {
-                await this.$router.replace("/auth/login");
+                console.log(err);
+                this.$router.back();
             }
         }
     };
