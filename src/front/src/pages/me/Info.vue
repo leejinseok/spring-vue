@@ -20,7 +20,7 @@
 </template>
 
 <script>
-    import authApi from "../../api/authApi";
+    import authService from "../../services/authService";
 
     export default {
         name: "Info",
@@ -31,10 +31,14 @@
             };
         },
         async beforeCreate() {
-            authApi.bind(this);
+            authService.session = authService.session.bind(this);
+            authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(this);
+        },
+        async created() {
+            await authService.banishIfUserUnAuthenticated();
 
             try {
-                const {data} = await authApi.session();
+                const {data} = await authService.session();
                 this.user = data;
             } catch (err) {
                 await this.$router.replace("/auth/login");
