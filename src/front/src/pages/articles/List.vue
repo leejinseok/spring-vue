@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Header />
+        <Header :session="session"/>
         <div v-if="!pending">
             <article v-for="article in articles" v-bind:key="article.id">
                 <router-link :to="{name: 'DetailArticle', params: {id: article.id}}">
@@ -40,7 +40,9 @@
         },
         props: {
             startSpin: Function,
-            stopSpin: Function
+            stopSpin: Function,
+            setSession: Function,
+            session: Object
         },
         data() {
             return {
@@ -53,9 +55,6 @@
             articleService.getArticles = articleService.getArticles.bind(this);
             authService.logout = authService.logout.bind(this);
             authService.session = authService.session.bind(this);
-            // authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(
-            //     this
-            // );
         },
         async created() {
             this.startSpin();
@@ -63,6 +62,7 @@
             try {
                 const { data } = await authService.session();
                 this.user = data;
+                this.setSession(data);
             } catch (err) {
                 console.log(err);
             }

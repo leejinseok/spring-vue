@@ -31,8 +31,6 @@ export default {
             }
         }
 
-        console.log(options);
-
         return axios(options);
     },
     postArticle({title = '', content = ''}, authorization) {

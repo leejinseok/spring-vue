@@ -21,13 +21,12 @@ export default {
     async getArticle(articleId) {
         try {
             const accessToken = this.$cookie.get('accessToken');
-            const authorization = commonUtil.getAuthenticationHeaderBearer(accessToken);
+            const authorization = accessToken ? commonUtil.getAuthenticationHeaderBearer(accessToken) : null;
 
             const {data} = await articleApi.getArticle({articleId}, authorization);
             return data;
         } catch (err) {
             alert('문제가 발생하였습니다.');
-            console.log(err);
         }
     },
     async removeArticle(articleId) {

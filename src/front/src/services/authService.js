@@ -27,8 +27,12 @@ export default {
         }
     },
     session() {
-        return authApi.session(commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken')));
+        const accessToken = this.$cookie.get('accessToken');
+        if (!accessToken) {
+            throw new Error("JWT not exist");
+        }
 
+        return authApi.session(commonUtil.getAuthenticationHeaderBearer(accessToken));
     },
     async logout() {
         try {
