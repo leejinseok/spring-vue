@@ -33,9 +33,9 @@ export default {
     async logout() {
         try {
             this.$cookie.set('accessToken', null, 0);
-            await this.$router.push('/');
-        } catch (e) {
-            console.log(e);
+            location.reload();
+        } catch (err) {
+            console.log(err);
         }
     },
     async progressIfUserAuthenticated() {
@@ -49,8 +49,9 @@ export default {
     async banishIfUserUnAuthenticated() {
         try {
             await authApi.session(commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken')));
-        } catch (e) {
+        } catch (err) {
             alert('토큰이 존재하지 않거나 유효하지 않은 토큰입니다.');
+            console.log(err);
             await this.$router.replace('/');
         }
     },

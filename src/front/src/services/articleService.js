@@ -35,9 +35,9 @@ export default {
             const authorization = commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken'));
             await articleApi.removeArticle({articleId}, authorization);
             await this.$router.push('/articles');
-        } catch (e) {
+        } catch (err) {
             alert('문제가 발생하였습니다.');
-            console.log(e);
+            console.log(err);
         }
     },
     async postArticle(data) {
