@@ -1,10 +1,10 @@
 <template>
     <div>
         <Header :session="session"/>
-        <div v-if="!pending">
+        <div class="article-wrapper" v-if="!pending">
             <article v-for="article in articles" v-bind:key="article.id">
                 <router-link :to="{name: 'DetailArticle', params: {id: article.id}}">
-                    <span>{{ article.title }}</span>
+                    <p class="title">{{ article.title }}</p>
                 </router-link>
                 <span @click="clickUser">{{ article.user.name }}</span>
             </article>
@@ -85,4 +85,18 @@
 </script>
 
 <style scoped>
+    article {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    article a {
+        font-size: 18px;
+        text-align: left;
+    }
+
+    .article-wrapper {
+        padding: 20px 16px;
+        box-sizing: border-box;
+    }
 </style>
