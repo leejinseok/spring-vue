@@ -26,6 +26,10 @@ export default {
             }
         }
     },
+    session() {
+        return authApi.session(commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken')));
+
+    },
     async logout() {
         try {
             this.$cookie.set('accessToken', null, 0);

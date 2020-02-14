@@ -63,6 +63,10 @@ public class Article {
     }
 
     public boolean compareUser(User user) {
+        if (user == null) {
+            return false;
+        }
+
         return compareUser(user.getId());
     }
 

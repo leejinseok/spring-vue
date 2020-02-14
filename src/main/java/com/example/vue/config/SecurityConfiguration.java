@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/auth/login").permitAll()
             .antMatchers("/auth/register").permitAll()
             .antMatchers("/users").authenticated()
-            .antMatchers("/articles").authenticated()
+            .antMatchers("/articles").permitAll()
             .antMatchers("/me").authenticated()
             .and()
             .formLogin().disable()

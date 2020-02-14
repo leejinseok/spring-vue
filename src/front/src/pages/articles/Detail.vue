@@ -36,9 +36,6 @@
             };
         },
         async beforeCreate() {
-            authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(
-                this
-            );
             articleService.getArticle = articleService.getArticle.bind(this);
             articleService.removeArticle = articleService.removeArticle.bind(this);
         },

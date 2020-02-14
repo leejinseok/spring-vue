@@ -9,17 +9,20 @@
 
         <br/>
 
-        <div>
-            <router-link to="/articles/write">글쓰기</router-link>
-        </div>
+        <div v-if="user">
+            <div>
+                <router-link to="/articles/write">글쓰기</router-link>
+            </div>
 
-        <div>
-            <button type="button" @click="logout">로그아웃</button>
-        </div>
+            <div>
+                <button type="button" @click="logout">로그아웃</button>
+            </div>
 
-        <div>
-            <router-link to="/me">My</router-link>
+            <div>
+                <router-link to="/me">My</router-link>
+            </div>
         </div>
+        
     </div>
 </template>
 
@@ -32,18 +35,27 @@
         data() {
             return {
                 articles: [],
-                pending: true
+                pending: true,
+                user: null
             };
         },
         async beforeCreate() {
             articleService.getArticles = articleService.getArticles.bind(this);
             authService.logout = authService.logout.bind(this);
-            authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(
-                this
-            );
+            authService.session = authService.session.bind(this);
+            // authService.banishIfUserUnAuthenticated = authService.banishIfUserUnAuthenticated.bind(
+            //     this
+            // );
         },
         async created() {
-            await authService.banishIfUserUnAuthenticated();
+            try {
+                const { data } = await authService.session();
+                this.user = data;
+            } catch (err) {
+                console.log(err);
+            }
+
+            // await authService.banishIfUserUnAuthenticated();
             this.articles = await articleService.getArticles({});
             this.pending = false;
         },

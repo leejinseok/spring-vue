@@ -3,25 +3,37 @@ import axios from 'axios';
 export default {
     getArticles({page = 0, size = 10, q = ''}, authorization) {
 
-        return axios({
+        const request = axios({
             url: '/api/articles',
-            headers: {
-                'Authorization': authorization
-            },
             params: {
                 page,
                 size,
                 q
             }
         });
+
+        if (authorization) {
+            request.headers = {
+                'Authorization': authorization
+            };
+        }
+
+        return request;
     },
     getArticle({articleId}, authorization) {
-        return axios({
+        const request = axios({
             url: '/api/articles/' + articleId,
-            headers: {
+
+        });
+
+        if (authorization) {
+            request.headeres = {
                 'Authorization': authorization
             }
-        });
+        }
+
+        return request;
+
     },
     postArticle({title = '', content = ''}, authorization) {
 

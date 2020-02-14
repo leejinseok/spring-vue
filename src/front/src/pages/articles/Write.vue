@@ -41,9 +41,10 @@
             );
         },
         async created() {
+            await authService.banishIfUserUnAuthenticated();
+
             const id = this.$route.query.id;
             if (id) {
-                await authService.banishIfUserUnAuthenticated();
                 const {title, content, user} = await articleService.getArticle(id);
                 await articleService.doseSessionHasPermission(user);
 
