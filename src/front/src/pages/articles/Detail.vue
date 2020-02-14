@@ -23,16 +23,18 @@
 </template>
 
 <script>
-    import authService from "../../services/authService";
     import articleService from "../../services/articleService";
 
     export default {
         name: "Detail",
+        props: {
+          startSpin: Function,
+          stopSpin: Function
+        },
         data() {
             return {
                 article: {},
                 init: false,
-                test: ""
             };
         },
         async beforeCreate() {
@@ -40,8 +42,10 @@
             articleService.removeArticle = articleService.removeArticle.bind(this);
         },
         async created() {
+            this.startSpin();
             this.article = await articleService.getArticle(this.$route.params.id);
             this.init = true;
+            this.stopSpin(true);
         },
         methods: {
             async remove() {
