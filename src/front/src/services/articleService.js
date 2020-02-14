@@ -20,9 +20,11 @@ export default {
     },
     async getArticle(articleId) {
         try {
-            const authorization = commonUtil.getAuthenticationHeaderBearer(this.$cookie.get('accessToken'));
-            const result = await articleApi.getArticle({articleId}, authorization);
-            return result.data;
+            const accessToken = this.$cookie.get('accessToken');
+            const authorization = commonUtil.getAuthenticationHeaderBearer(accessToken);
+
+            const {data} = await articleApi.getArticle({articleId}, authorization);
+            return data;
         } catch (err) {
             alert('문제가 발생하였습니다.');
             console.log(err);
