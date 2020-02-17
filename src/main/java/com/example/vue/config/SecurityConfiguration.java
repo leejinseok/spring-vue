@@ -34,12 +34,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/auth/register").permitAll()
             .antMatchers("/users").authenticated()
             .antMatchers("/articles").permitAll()
-            .antMatchers("/me").authenticated()
+            .antMatchers("/me/**").hasRole("USER")
             .and()
             .formLogin().disable()
             .addFilter(jwtAuthenticationFilter())
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
     }
 
     @Bean
