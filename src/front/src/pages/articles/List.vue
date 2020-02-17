@@ -89,7 +89,7 @@
                     console.log(err);
                 }
 
-                const page = this.$route.query.page || 0;
+                const page = +this.$route.query.page || 0;
                 const data = await articleService.getArticles({page});
                 const {content, totalPages} = data;
 
@@ -108,7 +108,7 @@
                 console.log(evt.target);
             },
             isActivePage(page) {
-                const currentPage = this.$route.query.page || 0;
+                const currentPage = +this.$route.query.page || 0;
                 return page - 1 === currentPage;
             }
         }
