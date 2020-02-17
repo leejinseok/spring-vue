@@ -88,10 +88,10 @@
                 } catch (err) {
                     console.log(err);
                 }
-                const page = this.$route.query.page || 0;
 
+                const page = this.$route.query.page || 0;
                 const data = await articleService.getArticles({page});
-                const {content, totalPages, totalElements } = data;
+                const {content, totalPages} = data;
 
                 this.pages = paginationUtil(page, totalPages);
 
@@ -109,7 +109,6 @@
             },
             isActivePage(page) {
                 const currentPage = this.$route.query.page || 0;
-                console.log(currentPage, page);
                 return page - 1 === currentPage;
             }
         }
