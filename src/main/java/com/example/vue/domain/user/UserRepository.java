@@ -31,9 +31,9 @@ public class UserRepository {
         int page = pageable.getPageNumber();
         int size = pageable.getPageSize();
 
-        return em.createNamedQuery("findAllUser", User.class)
+        return em.createNamedQuery("", User.class)
             .setFirstResult(page * size)
-            .setMaxResults(page * size + size)
+            .setMaxResults(size)
             .getResultList();
     }
 
