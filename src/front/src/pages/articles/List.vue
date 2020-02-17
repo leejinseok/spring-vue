@@ -16,6 +16,9 @@
                         <router-link :to="{ path: '/articles', query: { page: page - 1 }}" v-if="typeof(page) === 'number'">
                             {{ page }}
                         </router-link>
+                        <span v-else>
+                            ...
+                        </span>
                     </li>
                 </ul>
             </div>
