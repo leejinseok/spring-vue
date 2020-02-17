@@ -3,17 +3,18 @@ import commonUtil from "../utils/commonUtil";
 import authApi from "../api/authApi";
 
 export default {
-    async getArticles({page = 0, size = 10}) {
+    async getArticles({page = 0, size = 3}) {
         try {
             const accessToken = this.$cookie.get('accessToken');
             const authorization = accessToken ? commonUtil.getAuthenticationHeaderBearer(accessToken) : '';
 
-            const {data} = await articleApi.getArticles({
+            const result = await articleApi.getArticles({
                 page,
                 size
             }, authorization);
 
-            return data;
+
+            return result.data;
 
         } catch (err) {
             alert('문제가 발생하였습니다.');

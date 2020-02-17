@@ -9,6 +9,17 @@
                 <span @click="clickUser">{{ article.user.name }}</span>
             </article>
 
+
+            <div class="paginatior-wrapper" v-if="pages">
+                <ul class="clearfix">
+                    <li v-for="page in pages" v-bind:key="page" v-bind:class="{active: isActivePage(page)}">
+                        <router-link :to="{ path: '/articles', query: { page: page - 1 }}" v-if="typeof(page) === 'number'">
+                            {{ page }}
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
+
             <br/>
 
             <div v-if="user">
@@ -32,6 +43,7 @@
     import authService from "../../services/authService";
     import articleService from "../../services/articleService";
     import Header from '../../components/common/Header';
+    import paginationUtil from "../../utils/paginationUtil";
 
     export default {
         name: "List",
@@ -47,6 +59,7 @@
         data() {
             return {
                 articles: [],
+                pages: null,
                 pending: true,
                 user: null
             };
@@ -57,30 +70,47 @@
             authService.session = authService.session.bind(this);
         },
         async created() {
-            this.startSpin();
-
-            try {
-                const { data } = await authService.session();
-                this.user = data;
-                this.setSession(data);
-            } catch (err) {
-                console.log(err);
+            await this.fetchArticles();
+        },
+        watch: {
+            '$route': async function () {
+                await this.fetchArticles();
             }
-
-            const articles = await articleService.getArticles({});
-
-            this.articles = articles.content;
-            this.pending = false;
-
-            this.stopSpin(true);
         },
         methods: {
+            async fetchArticles() {
+                this.startSpin();
+
+                try {
+                    const { data } = await authService.session();
+                    this.user = data;
+                    this.setSession(data);
+                } catch (err) {
+                    console.log(err);
+                }
+                const page = this.$route.query.page || 0;
+
+                const data = await articleService.getArticles({page});
+                const {content, totalPages, totalElements } = data;
+
+                this.pages = paginationUtil(page, totalPages);
+
+                this.articles = content;
+                this.pending = false;
+
+                this.stopSpin(true);
+            },
             async logout() {
                 if (!confirm("정말 로그아웃 하시겠습니까?")) return;
                 await authService.logout();
             },
             clickUser(evt) {
                 console.log(evt.target);
+            },
+            isActivePage(page) {
+                const currentPage = this.$route.query.page || 0;
+                console.log(currentPage, page);
+                return page - 1 === currentPage;
             }
         }
     };
@@ -109,5 +139,24 @@
         max-width: 900px;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .paginatior-wrapper {
+
+    }
+
+    .paginatior-wrapper ul {
+
+    }
+
+    .paginatior-wrapper ul li {
+        float: left;
+        border: 1px solid dimgray;
+        padding: 6px 4px;
+    }
+
+    .paginatior-wrapper ul li.active {
+        background-color: dimgray;
+        color: #fff;
     }
 </style>

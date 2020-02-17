@@ -41,7 +41,7 @@ public class ArticleServiceTest {
         Article article = baseTest.findTestArticle();
         ArticleRequestDto articleRequestDto = new ArticleRequestDto();
         articleRequestDto.setTitle("update title");
-        articleRequestDto.setTitle("update content");
+        articleRequestDto.setContent("update content");
 
         articleService.update(article.getId(), articleRequestDto, baseTest.findTestUser());
     }
