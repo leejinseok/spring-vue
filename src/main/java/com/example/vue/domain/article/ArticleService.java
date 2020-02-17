@@ -40,11 +40,7 @@ public class ArticleService {
             .map(article -> new ArticleResponseDto(article, user))
             .collect(Collectors.toList());
 
-        int total = articleRepository.findTotal();
-
-        Page<ArticleResponseDto> page = new PageImpl<>(contents, pageable, total);
-
-        return page;
+        return new PageImpl<>(contents, pageable, articleRepository.findTotal());
     }
 
     public ArticleResponseDto findById(Long id, User user) {
