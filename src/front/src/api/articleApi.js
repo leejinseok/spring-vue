@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export default {
-    getArticles({page = 0, size = 10, q = ''}, authorization) {
+    getArticles({page, size, q = ''}, authorization) {
 
         const options = {
             url: '/api/articles',

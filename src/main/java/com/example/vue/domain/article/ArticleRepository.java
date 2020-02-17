@@ -29,7 +29,7 @@ public class ArticleRepository {
 
         return em.createNamedQuery("findAll", Article.class)
             .setFirstResult(page * size)
-            .setMaxResults(page * size + size)
+            .setMaxResults(size)
             .getResultList();
     }
 
