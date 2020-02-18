@@ -34,11 +34,7 @@ public class ArticleRepository {
     }
 
     public int findTotal() {
-        return em.createNamedQuery("findAll", Article.class)
-            .setFirstResult(0)
-            .setMaxResults(999999999)
-            .getResultList()
-            .size();
+        return em.createNamedQuery("findAll", Article.class).getResultList().size();
     }
 
     public Optional<Article> findById(Long id) {
