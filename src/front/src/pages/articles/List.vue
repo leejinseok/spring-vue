@@ -12,7 +12,7 @@
 
             <div class="paginatior-wrapper" v-if="pages">
                 <ul class="clearfix">
-                    <li v-for="page in pages" v-bind:key="page" v-bind:class="{active: isActivePage(page)}">
+                    <li v-for="page in pages.range" v-bind:key="page" v-bind:class="{active: isActivePage(page)}">
                         <router-link :to="{ path: '/articles', query: { page: page - 1 }}" v-if="typeof(page) === 'number'">
                             {{ page }}
                         </router-link>
@@ -47,6 +47,7 @@
     import articleService from "../../services/articleService";
     import Header from '../../components/common/Header';
     import paginationUtil from "../../utils/paginationUtil";
+    import paginationUtil2 from "../../utils/paginationUtil2";
 
     export default {
         name: "List",
@@ -94,9 +95,16 @@
 
                 const page = +this.$route.query.page || 0;
                 const data = await articleService.getArticles({page});
-                const {content, totalPages} = data;
+                const {content, totalPages, pageable} = data;
 
-                this.pages = paginationUtil(page, totalPages);
+                // console.log(page, totalPages);
+
+                // this.pages = paginationUtil(page, totalPages);
+                // const pages2 = paginationUtil2(page, totalPages, 3);
+
+                this.pages = paginationUtil2(page + 1, totalPages);
+
+                console.log('');
 
                 this.articles = content;
                 this.pending = false;
