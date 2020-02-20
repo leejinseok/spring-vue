@@ -22,24 +22,24 @@ export default function (currentPage, totalPage, chapterSize = 5) {
     // currentPage 2 => left -1, right +3
 
     const halfOfChapterSize = Math.ceil(chapterSize / 2);
-    const halfOfLastChapter = totalPage - halfOfChapterSize + 1;
+    const halfOfLastChapter = totalPage - halfOfChapterSize;
     let extra = chapterSize - 1;
 
     let start;
     let end;
 
+
     if (currentPage < halfOfChapterSize) {
         start = currentPage + (1 - currentPage);
         end = currentPage + halfOfChapterSize + (halfOfChapterSize - currentPage);
     } else if (currentPage > halfOfLastChapter) {
-        // halfOfLastChapter = 14;
-        extra = extra - (totalPage - currentPage);
+        let remainExtra = extra - (totalPage - currentPage);
         start = currentPage + (totalPage - currentPage);
-        end = currentPage - extra;
+        end = currentPage - remainExtra;
     } else {
         start = currentPage - extra / 2;
         end = currentPage + (extra / 2);
-        console.log(start,end);
+        end++;
     }
 
     // currentPage 12
