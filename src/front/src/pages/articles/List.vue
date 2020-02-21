@@ -47,7 +47,6 @@
     import articleService from "../../services/articleService";
     import Header from '../../components/common/Header';
     import paginationUtil from "../../utils/paginationUtil";
-    import paginationUtil2 from "../../utils/paginationUtil2";
 
     export default {
         name: "List",
@@ -97,14 +96,7 @@
                 const data = await articleService.getArticles({page});
                 const {content, totalPages, pageable} = data;
 
-                // console.log(page, totalPages);
-
-                // this.pages = paginationUtil(page, totalPages);
-                // const pages2 = paginationUtil2(page, totalPages, 3);
-
-                this.pages = paginationUtil2(page + 1, totalPages);
-
-                console.log('');
+                this.pages = paginationUtil(page + 1, totalPages);
 
                 this.articles = content;
                 this.pending = false;
