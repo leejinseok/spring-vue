@@ -15,8 +15,14 @@ export default function (currentPage, totalPage, chapterSize = 5) {
     } else {
         const rest = (chapterSize - 1);
         const halfOfRest = rest / 2;
+
         start = currentPage - halfOfRest;
         end = currentPage + halfOfRest;
+
+        if (halfOfRest % 2 !== 0) {
+            start += 0.5;
+            end += 0.5;
+        }
     }
 
     const range = [];
