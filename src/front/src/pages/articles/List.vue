@@ -96,7 +96,7 @@
                 const data = await articleService.getArticles({page});
                 const {content, totalPages, pageable} = data;
 
-                this.pages = paginationUtil(page + 1, totalPages, 4);
+                this.pages = paginationUtil(page + 1, totalPages, 5);
 
                 this.articles = content;
                 this.pending = false;

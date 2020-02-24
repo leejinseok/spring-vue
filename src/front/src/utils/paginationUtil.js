@@ -24,7 +24,6 @@ export default function (currentPage, totalPage, chapterSize = 5) {
             end += 0.5;
         }
     }
-
     const range = [];
     for (let i = start; i <= end; i++) {
         range.push(i);
